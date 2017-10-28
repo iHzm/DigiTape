@@ -33,6 +33,8 @@ public class mainController : MonoBehaviour {
 				snackbar.text = "Place marker 2";
 				placeObject(2);
 			} else {
+				marker1 = new Vector3(marker1.x, 0, marker1.z);
+				marker2 = new Vector3(marker2.x, 0, marker2.z);
 				float inchesDistance = Vector3.Distance(marker1, marker2) * 39.3701f;
 				snackbar.text = inchesDistance.ToString() + " in";
 			} 
