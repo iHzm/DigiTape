@@ -18,6 +18,7 @@ public class mainController : MonoBehaviour {
 	void Start () {
 		cam = Camera.main;
 		Reset();
+		snackbar.text = "Searching for plane...";
 	}
 
 	void Update ()
@@ -40,12 +41,19 @@ public class mainController : MonoBehaviour {
 		}
 	}
 
-	void Reset(){
+	public void Reset ()
+	{
 		marker1 = Vector3.zero;
 		marker2 = Vector3.zero;
 		marker1Placed = false;
 		marker2Placed = false;
-		snackbar.text = "Searching for plane...";
+		snackbar.text = "Place Marker 1";
+		if (GameObject.FindGameObjectsWithTag ("markerTag").Length == 2) {
+			Destroy (GameObject.FindGameObjectsWithTag ("markerTag") [0]);
+			Destroy (GameObject.FindGameObjectsWithTag ("markerTag") [1]);
+		} else if (GameObject.FindGameObjectsWithTag ("markerTag").Length == 1) {
+			Destroy (GameObject.FindGameObjectsWithTag ("markerTag") [0]);
+		}
 	}
 	public void placeObject (int mode)
 	{
@@ -62,6 +70,7 @@ public class mainController : MonoBehaviour {
 			if (Session.Raycast (cam.ScreenPointToRay (touch.position), raycastfilter, out hit)) {
 				Anchor anc = Session.CreateAnchor (hit.Point, Quaternion.identity);
 				var cubemarker = Instantiate (_cube, hit.Point, Quaternion.identity, anc.transform);
+				cubemarker.tag = "markerTag";
 				if (mode == 1) {
 					marker1 = cubemarker.transform.position;
 					marker1Placed = true;
